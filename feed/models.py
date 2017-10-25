@@ -32,4 +32,5 @@ class Item(models.Model):
         return u' '.join(fifty_words)
 
     class Meta:
-        get_latest_by = ['last_updated', 'created']
+        ordering = ['-last_updated', 'created']
+        get_latest_by = 'last_updated'

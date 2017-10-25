@@ -36,6 +36,6 @@ class Query(graphene.ObjectType):
         return feed.models.Feed.objects.all()
 
     def resolve_items(self, *args, **kwargs):
-        return feed.models.Item.objects.all().order_by('created', 'last_updated')
+        return feed.models.Item.objects.all()
 
 schema = graphene.Schema(query=Query)

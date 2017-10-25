@@ -31,11 +31,12 @@ class Migration(migrations.Migration):
                 ('created', models.DateTimeField()),
                 ('last_updated', models.DateTimeField()),
                 ('content', models.TextField(default='Some content')),
-                ('title', models.TextField(default='Some text')),
+                ('title', models.TextField(default='Some title')),
                 ('feed', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='feed.Feed')),
             ],
             options={
-                'get_latest_by': ['last_updated', 'created'],
+                'get_latest_by': 'last_updated',
+                'ordering': ['-last_updated', 'created']
             },
         ),
     ]

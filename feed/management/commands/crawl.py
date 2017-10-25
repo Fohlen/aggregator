@@ -1,4 +1,4 @@
-from dateutil import parser
+from dateutil.parser import parse
 from django.core.management.base import BaseCommand, CommandError
 from feed.models import Feed, Item
 from django.utils import timezone
@@ -24,9 +24,25 @@ class Command(BaseCommand):
             for entry in source.entries:
                 try:
                     created_date = entry.published if entry.published else entry.created # if none of these criteria applies what the fuck fix your invalid garbage rss feed
-                    created_date = parser(created_date)
-                except Exception:
+                    created_date = parse(created_date)
+                except:
                     created_date = timezone.now()
 
-                item, created = Item.objects.get_or_create(feed=feed, url=entry.link, created=created_date, last_updated=timezone.now(), content=escape(entry.summary_detail.value))
+                try:
+                    last_updated = parse(entry.updated)
+                except:
+                    last_updated = timezone.now()
+
+                try:
+                    created = False
+                    item = Item.objects.get(feed=feed, url=entry.link)
+                    if item.last_updated < last_updated:
+                        item.content = escape(entry.summary_detail.value)
+                        item.last_updated = last_updated
+                        item.save()
+                except Item.DoesNotExist:
+                    created = True
+                    item = Item(feed=feed, url=entry.link, created=created_date, last_updated=last_updated, content=escape(entry.summary_detail.value))
+                    item.save()
+
                 logger.debug('{} item with link {} on {}'.format('Created' if created else 'Updated', item.url, item.last_updated))

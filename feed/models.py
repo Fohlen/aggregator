@@ -21,7 +21,8 @@ class Item(models.Model):
     created = models.DateTimeField()
     last_updated = models.DateTimeField()
 
-    content = models.TextField()
+    title = models.TextField(default='Some title')
+    content = models.TextField(default='Some content')
 
     @property
     def description(self):

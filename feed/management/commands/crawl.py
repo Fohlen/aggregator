@@ -42,7 +42,7 @@ class Command(BaseCommand):
                         item.save()
                 except Item.DoesNotExist:
                     created = True
-                    item = Item(feed=feed, url=entry.link, created=created_date, last_updated=last_updated, content=escape(entry.summary_detail.value))
+                    item = Item(feed=feed, url=entry.link, created=created_date, last_updated=last_updated, title=escape(entry.title), content=escape(entry.summary_detail.value))
                     item.save()
 
                 logger.debug('{} item with link {} on {}'.format('Created' if created else 'Updated', item.url, item.last_updated))

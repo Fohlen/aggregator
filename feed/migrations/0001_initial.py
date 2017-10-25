@@ -30,7 +30,8 @@ class Migration(migrations.Migration):
                 ('url', models.URLField(unique=True)),
                 ('created', models.DateTimeField()),
                 ('last_updated', models.DateTimeField()),
-                ('content', models.TextField()),
+                ('content', models.TextField(default='Some content')),
+                ('title', models.TextField(default='Some text')),
                 ('feed', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='feed.Feed')),
             ],
             options={

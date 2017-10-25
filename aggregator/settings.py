@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'graphene_django',
     'feed.apps.FeedConfig',
     'django.contrib.contenttypes',
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -105,6 +107,7 @@ GRAPHENE = {
     'SCHEMA': 'feed.schema.schema' # Where your Graphene schema lives
 }
 
+CORS_ORIGIN_ALLOW_ALL = True # this is a public API. We don't need CORS
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -140,3 +143,4 @@ LOGGING = {
 }
 
 FEED_URL = 'https://raw.githubusercontent.com/inexorgame/blog-data/master/config/feeds.json'
+
